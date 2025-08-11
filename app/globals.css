@@ -1,36 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
+    --foreground-rgb: 17, 24, 39;
+    --background-start-rgb: 249, 250, 251;
     --background-end-rgb: 255, 255, 255;
+    --museum-stone: 212, 197, 181;
+    --museum-bronze: 205, 127, 50;
+    --gradient-museum: linear-gradient(135deg, rgba(44, 24, 16, 0.03) 0%, rgba(139, 69, 19, 0.03) 100%);
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --foreground-rgb: 255, 255, 255;
-      --background-start-rgb: 0, 0, 0;
-      --background-end-rgb: 0, 0, 0;
+      --foreground-rgb: 249, 250, 251;
+      --background-start-rgb: 17, 24, 39;
+      --background-end-rgb: 31, 41, 55;
     }
+  }
+
+  * {
+    scroll-behavior: smooth;
   }
 
   body {
     color: rgb(var(--foreground-rgb));
     background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-      )
-      rgb(var(--background-start-rgb));
+      to bottom,
+      rgba(var(--museum-stone), 0.02),
+      rgba(var(--background-end-rgb), 1)
+    );
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
 }
 
 @layer components {
+  /* Container Styles */
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+
+  .container-narrow {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl;
+  }
+
+  /* Section Styles */
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+
+  .section-padding-sm {
+    @apply py-12 lg:py-16;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply bg-white rounded-2xl shadow-soft hover:shadow-medium transition-all duration-300 overflow-hidden group border border-neutral-100;
+  }
+
+  .card-museum {
+    @apply bg-white rounded-2xl shadow-museum hover:shadow-strong transition-all duration-500 overflow-hidden group border border-museum-stone/20 relative;
+  }
+
+  .card-museum::before {
+    content: '';
+    @apply absolute inset-0 bg-museum-texture opacity-0 transition-opacity duration-300;
+  }
+
+  .card-museum:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Button Styles */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-secondary to-secondary-600 text-white hover:from-secondary-600 hover:to-secondary-700 shadow-medium hover:shadow-strong hover:-translate-y-0.5 focus:ring-secondary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white shadow-soft hover:shadow-medium focus:ring-primary;
+  }
+
+  .btn-outline {
+    @apply btn bg-transparent text-primary border-2 border-primary/20 hover:border-primary hover:bg-primary/5 focus:ring-primary;
+  }
+
+  /* Link Styles */
+  .link-museum {
+    @apply inline-flex items-center text-secondary font-medium hover:text-secondary-700 transition-colors duration-200 group;
+  }
+
+  .link-museum svg {
+    @apply transition-transform duration-200 group-hover:translate-x-1;
+  }
+
+  /* Typography Styles */
+  .heading-display {
+    @apply font-display font-bold tracking-tight;
+  }
+
+  .heading-section {
+    @apply heading-display text-3xl lg:text-4xl text-primary mb-6;
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-soft {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Gradient Overlays */
+  .gradient-overlay {
+    @apply bg-gradient-to-t from-black/60 via-black/20 to-transparent;
+  }
+
+  .gradient-overlay-museum {
+    background: linear-gradient(135deg, 
+      rgba(44, 24, 16, 0.8) 0%, 
+      rgba(139, 69, 19, 0.6) 50%, 
+      rgba(184, 134, 11, 0.4) 100%
+    );
+  }
+
+  /* Custom Prose Styles */
   .prose-custom {
-    @apply max-w-none text-gray-700;
+    @apply max-w-none text-neutral-700 leading-relaxed;
   }
   
   .prose-custom h1,
@@ -39,27 +149,168 @@
   .prose-custom h4,
   .prose-custom h5,
   .prose-custom h6 {
-    @apply text-primary font-bold;
+    @apply text-primary font-display font-semibold mb-6 mt-8;
+  }
+
+  .prose-custom h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+
+  .prose-custom h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+
+  .prose-custom h3 {
+    @apply text-2xl lg:text-3xl;
   }
   
   .prose-custom a {
-    @apply text-secondary no-underline hover:underline;
+    @apply text-secondary no-underline hover:underline decoration-2 underline-offset-2 font-medium;
   }
   
   .prose-custom p {
-    @apply mb-4 leading-relaxed;
+    @apply mb-6 text-lg leading-relaxed;
   }
   
   .prose-custom ul,
   .prose-custom ol {
-    @apply mb-4 pl-6;
+    @apply mb-6 pl-8 space-y-2;
   }
   
   .prose-custom li {
-    @apply mb-2;
+    @apply text-lg leading-relaxed;
   }
   
   .prose-custom blockquote {
-    @apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+    @apply border-l-4 border-secondary/30 pl-6 italic text-neutral-600 bg-neutral-50 py-4 rounded-r-lg my-8;
+  }
+
+  /* Animation Classes */
+  .animate-on-scroll {
+    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  }
+
+  .animate-on-scroll.visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Line Clamp Utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+
+  .badge-secondary {
+    @apply badge bg-secondary-100 text-secondary-800;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent-100 text-accent-800;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-green-800;
+  }
+
+  .badge-info {
+    @apply badge bg-blue-100 text-blue-800;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-100 text-yellow-800;
+  }
+
+  /* Aspect Ratio Utilities */
+  .aspect-golden {
+    aspect-ratio: 1.618 / 1;
+  }
+
+  .aspect-museum {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Museum-specific patterns */
+  .pattern-stone {
+    background-image: 
+      radial-gradient(circle at 25px 25px, rgba(212, 197, 181, 0.1) 2px, transparent 2px),
+      radial-gradient(circle at 75px 75px, rgba(139, 69, 19, 0.05) 2px, transparent 2px);
+    background-size: 100px 100px;
+  }
+
+  /* Focus States */
+  .focus-museum {
+    @apply focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-white;
+  }
+
+  /* Image Hover Effects */
+  .image-hover-zoom {
+    @apply transition-transform duration-700 ease-out group-hover:scale-105;
+  }
+
+  .image-hover-overlay {
+    @apply relative overflow-hidden;
+  }
+
+  .image-hover-overlay::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-300;
+  }
+
+  .image-hover-overlay:hover::after {
+    @apply opacity-100;
+  }
+
+  /* Loading States */
+  .loading-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+@layer utilities {
+  /* Custom Scrollbar */
+  .scrollbar-museum::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .scrollbar-museum::-webkit-scrollbar-track {
+    @apply bg-neutral-100 rounded-full;
+  }
+
+  .scrollbar-museum::-webkit-scrollbar-thumb {
+    @apply bg-secondary rounded-full;
+  }
+
+  .scrollbar-museum::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary-600;
+  }
+
+  /* Selection Styles */
+  ::selection {
+    @apply bg-secondary/20 text-primary;
   }
 }

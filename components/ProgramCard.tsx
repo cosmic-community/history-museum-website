@@ -7,68 +7,89 @@ export default function ProgramCard({ program, className = '' }: ProgramCardProp
   const duration = program.metadata?.duration
   const price = program.metadata?.price
   
+  const getAgeGroupColor = (ageGroup: any) => {
+    if (!ageGroup) return 'bg-neutral-100 text-neutral-700'
+    
+    switch (ageGroup.key) {
+      case 'children':
+        return 'bg-blue-100 text-blue-800'
+      case 'teens':
+        return 'bg-purple-100 text-purple-800'
+      case 'adults':
+        return 'bg-green-100 text-green-800'
+      case 'families':
+        return 'bg-orange-100 text-orange-800'
+      default:
+        return 'bg-neutral-100 text-neutral-700'
+    }
+  }
+  
   return (
-    <div className={`card ${className}`}>
+    <article className={`card-museum group ${className}`}>
       {programImage && (
-        <div className="aspect-video">
+        <div className="relative aspect-video overflow-hidden">
           <img
             src={`${programImage.imgix_url}?w=800&h=450&fit=crop&auto=format,compress`}
             alt={program.metadata?.program_name || program.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover image-hover-zoom"
             width="400"
             height="225"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
+          {/* Age Group Badge */}
+          {ageGroup && (
+            <div className="absolute top-4 left-4">
+              <span className={`badge ${getAgeGroupColor(ageGroup)} font-semibold shadow-soft`}>
+                {ageGroup.value}
+              </span>
+            </div>
+          )}
+
+          {/* Price Badge */}
+          {price && (
+            <div className="absolute top-4 right-4">
+              <span className="badge bg-secondary text-white font-semibold shadow-medium">
+                {price}
+              </span>
+            </div>
+          )}
         </div>
       )}
       
-      <div className="p-6">
-        {ageGroup && (
-          <span className="inline-block px-3 py-1 rounded-full text-sm font-medium mb-3 bg-secondary-100 text-secondary-800">
-            {ageGroup.value}
-          </span>
-        )}
-        
-        <h3 className="text-xl font-bold text-primary mb-3">
+      <div className="p-6 relative z-10">        
+        <h3 className="text-xl font-display font-semibold text-primary mb-4 group-hover:text-secondary transition-colors duration-300 line-clamp-2">
           {program.metadata?.program_name || program.title}
         </h3>
         
-        <div className="space-y-2 mb-4">
-          {duration && (
-            <div className="flex items-center text-gray-600 text-sm">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {duration && (
+          <div className="flex items-center text-neutral-600 mb-4">
+            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
+              <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span>{duration}</span>
             </div>
-          )}
-          
-          {price && (
-            <div className="flex items-center text-gray-600 text-sm">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-              </svg>
-              <span className="font-semibold">{price}</span>
-            </div>
-          )}
-        </div>
+            <span className="text-sm font-medium">{duration}</span>
+          </div>
+        )}
         
         {program.metadata?.description && (
           <div 
-            className="text-gray-600 mb-4 line-clamp-3"
+            className="text-neutral-600 mb-6 line-clamp-3 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: program.metadata.description }}
           />
         )}
         
         <Link
           href={`/programs/${program.slug}`}
-          className="inline-flex items-center text-secondary font-medium hover:text-secondary-700 transition-colors"
+          className="link-museum"
         >
-          Learn More
+          <span>Learn More</span>
           <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </Link>
       </div>
-    </div>
+    </article>
   )
 }
