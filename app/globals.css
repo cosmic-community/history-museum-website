@@ -3,63 +3,63 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
   }
-  
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --foreground-rgb: 255, 255, 255;
+      --background-start-rgb: 0, 0, 0;
+      --background-end-rgb: 0, 0, 0;
+    }
+  }
+
   body {
-    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgb(var(--background-end-rgb))
+      )
+      rgb(var(--background-start-rgb));
   }
 }
 
 @layer components {
-  .container {
-    @apply mx-auto px-4 sm:px-6 lg:px-8;
-  }
-  
-  .btn-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200;
-  }
-  
-  .btn-secondary {
-    @apply bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary-700 transition-colors duration-200;
-  }
-  
-  .btn-outline {
-    @apply border-2 border-primary text-primary px-6 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-all duration-200;
-  }
-  
-  .card {
-    @apply bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105;
-  }
-  
-  .section-padding {
-    @apply py-16 lg:py-24;
-  }
-  
   .prose-custom {
-    @apply prose prose-lg max-w-none prose-headings:text-primary prose-links:text-secondary prose-links:no-underline hover:prose-links:underline;
-  }
-}
-
-@layer utilities {
-  .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    @apply max-w-none text-gray-700;
   }
   
-  .gradient-overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+  .prose-custom h1,
+  .prose-custom h2,
+  .prose-custom h3,
+  .prose-custom h4,
+  .prose-custom h5,
+  .prose-custom h6 {
+    @apply text-primary font-bold;
   }
   
-  .aspect-video {
-    aspect-ratio: 16 / 9;
+  .prose-custom a {
+    @apply text-secondary no-underline hover:underline;
   }
   
-  .aspect-square {
-    aspect-ratio: 1 / 1;
+  .prose-custom p {
+    @apply mb-4 leading-relaxed;
   }
   
-  .backdrop-blur-sm {
-    backdrop-filter: blur(4px);
+  .prose-custom ul,
+  .prose-custom ol {
+    @apply mb-4 pl-6;
+  }
+  
+  .prose-custom li {
+    @apply mb-2;
+  }
+  
+  .prose-custom blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
   }
 }
