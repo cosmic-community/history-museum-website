@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { getExhibitionsByStatus } from '@/lib/cosmic'
 import ExhibitionCard from '@/components/ExhibitionCard'
+import type { ExhibitionStatus } from '@/types'
 
 export default async function FeaturedExhibitions() {
-  const currentExhibitions = await getExhibitionsByStatus('current')
-  const upcomingExhibitions = await getExhibitionsByStatus('upcoming')
+  // Fix: Use proper ExhibitionStatus type values
+  const currentExhibitions = await getExhibitionsByStatus('current' as ExhibitionStatus)
+  const upcomingExhibitions = await getExhibitionsByStatus('upcoming' as ExhibitionStatus)
   
   const featuredExhibitions = [...currentExhibitions, ...upcomingExhibitions].slice(0, 3)
 

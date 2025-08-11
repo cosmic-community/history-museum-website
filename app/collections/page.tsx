@@ -54,7 +54,8 @@ async function CollectionsList() {
     <div className="space-y-16">
       {categories.map((category) => {
         const categoryItems = groupedCollections[category]
-        if (categoryItems.length === 0) return null
+        // Fix: Add null check for categoryItems
+        if (!categoryItems || categoryItems.length === 0) return null
 
         const categoryName = categoryItems[0]?.metadata?.category?.value || category
 

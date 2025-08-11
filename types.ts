@@ -10,6 +10,27 @@ interface CosmicObject {
   modified_at: string;
 }
 
+// Utility types - defined at the top to avoid duplication
+export type ExhibitionStatus = 'current' | 'upcoming' | 'past';
+export type CollectionCategories = 'paleontology' | 'anthropology' | 'geology' | 'astronomy' | 'biology';
+export type AgeGroups = 'children' | 'teens' | 'adults' | 'families' | 'all';
+
+// Status/Category interfaces
+export interface ExhibitionStatusObject {
+  key: ExhibitionStatus;
+  value: 'Current' | 'Upcoming' | 'Past';
+}
+
+export interface CollectionCategory {
+  key: CollectionCategories;
+  value: 'Paleontology' | 'Anthropology' | 'Geology' | 'Astronomy' | 'Biology';
+}
+
+export interface AgeGroup {
+  key: AgeGroups;
+  value: 'Children (5-12)' | 'Teens (13-17)' | 'Adults (18+)' | 'Families' | 'All Ages';
+}
+
 // Exhibition types
 export interface Exhibition extends CosmicObject {
   type: 'exhibitions';
@@ -22,17 +43,12 @@ export interface Exhibition extends CosmicObject {
     };
     start_date?: string;
     end_date?: string;
-    exhibition_status?: ExhibitionStatus;
+    exhibition_status?: ExhibitionStatusObject;
     gallery?: Array<{
       url: string;
       imgix_url: string;
     }>;
   };
-}
-
-export interface ExhibitionStatus {
-  key: 'current' | 'upcoming' | 'past';
-  value: 'Current' | 'Upcoming' | 'Past';
 }
 
 // Collection types
@@ -51,11 +67,6 @@ export interface CollectionItem extends CosmicObject {
   };
 }
 
-export interface CollectionCategory {
-  key: 'paleontology' | 'anthropology' | 'geology' | 'astronomy' | 'biology';
-  value: 'Paleontology' | 'Anthropology' | 'Geology' | 'Astronomy' | 'Biology';
-}
-
 // Educational Program types
 export interface EducationalProgram extends CosmicObject {
   type: 'educational-programs';
@@ -70,11 +81,6 @@ export interface EducationalProgram extends CosmicObject {
       imgix_url: string;
     };
   };
-}
-
-export interface AgeGroup {
-  key: 'children' | 'teens' | 'adults' | 'families' | 'all';
-  value: 'Children (5-12)' | 'Teens (13-17)' | 'Adults (18+)' | 'Families' | 'All Ages';
 }
 
 // Event types
@@ -155,8 +161,3 @@ export function isEducationalProgram(obj: CosmicObject): obj is EducationalProgr
 export function isEvent(obj: CosmicObject): obj is Event {
   return obj.type === 'events';
 }
-
-// Utility types
-export type ExhibitionStatus = 'current' | 'upcoming' | 'past';
-export type CollectionCategories = 'paleontology' | 'anthropology' | 'geology' | 'astronomy' | 'biology';
-export type AgeGroups = 'children' | 'teens' | 'adults' | 'families' | 'all';

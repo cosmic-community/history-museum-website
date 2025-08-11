@@ -54,7 +54,8 @@ async function ProgramsList() {
     <div className="space-y-16">
       {ageGroups.map((ageGroup) => {
         const ageGroupPrograms = groupedPrograms[ageGroup]
-        if (ageGroupPrograms.length === 0) return null
+        // Fix: Add null check for ageGroupPrograms
+        if (!ageGroupPrograms || ageGroupPrograms.length === 0) return null
 
         const ageGroupName = ageGroupPrograms[0]?.metadata?.age_group?.value || ageGroup
 
