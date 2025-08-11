@@ -66,11 +66,11 @@
 
   /* Card Styles */
   .card {
-    @apply bg-white rounded-2xl shadow-soft hover:shadow-medium transition-all duration-300 overflow-hidden group border border-neutral-100;
+    @apply bg-white rounded-2xl shadow-soft hover:shadow-medium transition-all duration-300 overflow-hidden border border-neutral-100;
   }
 
   .card-museum {
-    @apply bg-white rounded-2xl shadow-museum hover:shadow-strong transition-all duration-500 overflow-hidden group border border-museum-stone/20 relative;
+    @apply bg-white rounded-2xl shadow-museum hover:shadow-strong transition-all duration-500 overflow-hidden border border-museum-stone/20 relative;
   }
 
   .card-museum::before {
@@ -101,7 +101,7 @@
 
   /* Link Styles */
   .link-museum {
-    @apply inline-flex items-center text-secondary font-medium hover:text-secondary-700 transition-colors duration-200 group;
+    @apply inline-flex items-center text-secondary font-medium hover:text-secondary-700 transition-colors duration-200;
   }
 
   .link-museum svg {
